@@ -1,4 +1,6 @@
-A node server for handling github webhooks
+# NGHWH
+
+Node Github Web-Hooks, a simple node server for handling github webhooks.
 
 To start the server, run
 
