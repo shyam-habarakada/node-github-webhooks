@@ -1,0 +1,29 @@
+{
+  "name": "node-github-webhooks",
+  "version": "1.0.0",
+  "description": "A simple node server for hooking github web hooks.",
+  "main": "server.js",
+  "dependencies": {
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "cat README.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shyam-habarakada/node-github-webhooks.git"
+  },
+  "keywords": [
+    "node",
+    "github",
+    "trello",
+    "slack"
+  ],
+  "author": "shyam-habarakada",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shyam-habarakada/node-github-webhooks/issues"
+  },
+  "homepage": "https://github.com/shyam-habarakada/node-github-webhooks"
+}
