@@ -12,6 +12,7 @@ var host = process.env.NGHWH_HOST,
 
 process.on('uncaughtException', function (err) {
   console.log('[exception] ' + err);
+  console.log(err.stack);
 });
 
 http.createServer(function (req, res) {
@@ -22,35 +23,49 @@ http.createServer(function (req, res) {
   });
 
   req.on("end", function() {
-    var parsedUrl = url.parse(req.url, true);
-    var params = {};
+    try {
 
-    if(parsedUrl.query['secret_key'] != secret_key) {
-      console.log("[warning] Unauthorized request " + req.url);
-      res.writeHead(401, "Not Authorized", {'Content-Type': 'text/html'});
-      res.end('401 - Not Authorized');
-      return;
-    }
+      var parsedUrl = url.parse(req.url, true),
+          githubEvent = req.headers['x-github-event'],
+          params = {};
 
-    if(data.length > 0) {
-
-      /* todo This code can be a lot more robust, with checks for request content type
-       * and other error handling. I'm skipping that for now because I know exactly what
-       * github sends in it's post recieve hooks.
-       *
-       * For more details see, https://help.github.com/articles/post-receive-hooks
-       */
+      if(parsedUrl.query['secret_key'] != secret_key) {
+        console.log("[warning] Unauthorized request " + req.url);
+        res.writeHead(401, "Not Authorized", {'Content-Type': 'text/html'});
+        res.end('401 - Not Authorized');
+        return;
+      }
 
       // debugging
-      console.log("[trace] data is '" + data + "'");
+      // console.log("[trace] data is '" + data + "'");
 
-      params = JSON.parse(data);
-      console.log(params);
+      if(data && data.length > 0) {
+        params = JSON.parse(data);
+      }
+
+      // For details, see https://developer.github.com/v3/activity/events/types/
+      //
+      switch(githubEvent) {
+        case 'pull_request':
+          console.log('action: ' + params['action']);
+          console.log('user: ' + params['pull_request']['user']['login']);
+          console.log('title: ' + params['pull_request']['title']);
+          console.log('url: ' + params['pull_request']['html_url']);
+          break;
+        default:
+          console.log('unhandled event" ' + githubEvent);
+      }
+
+      res.writeHead(200, "OK", {'Content-Type': 'text/html'});
+      res.end('200 - OK');
+      return;
+
+    } catch (e) {
+      console.log('[exception] ' + e);
+      console.log(e.stack);
+      res.writeHead(500, "Internal Server Error", {'Content-Type': 'text/html'});
+      res.end('500 Internal Server Error');
     }
-
-    res.writeHead(200, "OK", {'Content-Type': 'text/html'});
-    res.end('gotcha\n');
-    return;
   });
 
 }).listen(port, host);
