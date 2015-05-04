@@ -3,12 +3,17 @@
 var http = require('http'),
     url = require('url'),
     exec = require('child_process').exec,
-    qs = require('querystring');
+    qs = require('querystring'),
+    Trello = require('./lib/handlers/trello.js');
 
 var host = process.env.NGHWH_HOST,
     port = process.env.NGHWH_PORT,
     thisServerUrl = "http://" + host + ":" + port,
     secret_key = process.env.NGHWH_SECRET_KEY;
+
+// debug
+var trello = new Trello();
+trello.onPullRequest('this is not a real url');
 
 process.on('uncaughtException', function (err) {
   console.log('[exception] ' + err);
