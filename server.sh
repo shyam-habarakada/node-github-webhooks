@@ -11,11 +11,8 @@ var host = process.env.NGHWH_HOST,
     thisServerUrl = "http://" + host + ":" + port,
     secretKey = process.env.NGHWH_SECRET_KEY,
     trelloKey = process.env.TRELLO_KEY,
-    trelloToken = process.env.TRELLO_TOKEN;
-
-// debug
-var trello = new Trello(trelloKey, trelloToken);
-trello.onPullRequest('this is not a real url');
+    trelloToken = process.env.TRELLO_TOKEN,
+    trello = new Trello(trelloKey, trelloToken);
 
 process.on('uncaughtException', function (err) {
   console.log('[exception] ' + err);
@@ -44,7 +41,7 @@ http.createServer(function (req, res) {
       }
 
       // debugging
-      // console.log("[trace] data is '" + data + "'");
+      console.log("[trace] data is '" + data + "'");
 
       if(data && data.length > 0) {
         params = JSON.parse(data);
@@ -58,6 +55,11 @@ http.createServer(function (req, res) {
           console.log('user: ' + params['pull_request']['user']['login']);
           console.log('title: ' + params['pull_request']['title']);
           console.log('url: ' + params['pull_request']['html_url']);
+          if(params['action'] == 'opened') {
+            trello.onPullRequest( params['pull_request']['user']['login'],
+                                  params['pull_request']['title'],
+                                  params['pull_request']['html_url'] );
+          }
           break;
         default:
           console.log('unhandled event" ' + githubEvent);
