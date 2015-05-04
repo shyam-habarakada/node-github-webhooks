@@ -9,10 +9,12 @@ var http = require('http'),
 var host = process.env.NGHWH_HOST,
     port = process.env.NGHWH_PORT,
     thisServerUrl = "http://" + host + ":" + port,
-    secret_key = process.env.NGHWH_SECRET_KEY;
+    secretKey = process.env.NGHWH_SECRET_KEY,
+    trelloKey = process.env.TRELLO_KEY,
+    trelloToken = process.env.TRELLO_TOKEN;
 
 // debug
-var trello = new Trello();
+var trello = new Trello(trelloKey, trelloToken);
 trello.onPullRequest('this is not a real url');
 
 process.on('uncaughtException', function (err) {
@@ -34,7 +36,7 @@ http.createServer(function (req, res) {
           githubEvent = req.headers['x-github-event'],
           params = {};
 
-      if(parsedUrl.query['secret_key'] != secret_key) {
+      if(parsedUrl.query['secret_key'] != secretKey) {
         console.log("[warning] Unauthorized request " + req.url);
         res.writeHead(401, "Not Authorized", {'Content-Type': 'text/html'});
         res.end('401 - Not Authorized');
