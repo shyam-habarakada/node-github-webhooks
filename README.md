@@ -14,11 +14,11 @@ Now that we have a way to tag github PRs with Trello shortlinks, what is the bes
 
 The bookmarket code below will help improve this situation for chrome users (it might work in other browsers -- but I have not tested it).
 
-If you dont care to look at code, simply drag the link below to your bookmarks bar in chrome. And then use it to toggel displaying the shortlink text in each card while you are in a Trello board. To copy the text to the clipboard, simply click on that text on the card, and you have the value in your clipboard. Voila!
+disclaimer: I have not tested this bookmarklet in browsers other than chrome. If you do, let me know. If you find and fix issues, definitely let me know :-)
 
-<a href=javascript:!function(){window.__shortlinks=!window.__shortlinks,$(".list-card-title").each(function(){var e=$(this)[0];if(window.__shortlinks){var t=e.href,o=/trello\.com\/c\/(.*)\//;shortlink=o.exec(t)[1],d=document.createElement("span"),d.innerText=shortlink,d.className="card-short-link",d.style.fontSize="80%",d.style.marginLeft="5px",d.style.padding="1px 2px",d.style.color="rgb(221, 17, 68)",d.style.backgroundColor="rgb(247, 247, 249)",d.style.border="1px solid rgb(225, 225, 232)",d.style.borderRadius="3px",d.dataset.shortlink=shortlink,d.addEventListener("click",function(e){var t=document.createElement("textarea");return document.body.appendChild(t),t.value=this.dataset.shortlink,console.log("shortlink:"+this.dataset.shortlink),t.focus(),t.select(),document.execCommand("Copy"),t.remove(),e.preventDefault(),e.stopPropagation(),!1}),e.appendChild(d)}else $(".card-short-link",e).remove()})}();">Trello+</a>
+If you dont care to look at code, visit this [JSFiddle](http://jsfiddle.net/shyamh/6k841LLu/) and simply drag the `Trello+` link to your bookmarks bar. And then use it to toggel displaying the shortlink text in each card while you are in a Trello board. To copy the text to the clipboard, simply click on that text on the card, and you have the value in your clipboard. Voila!
 
-And here is the bookmarklet script.
+And here is the bookmarklet code.
 
 ```javascript
 (function() {
