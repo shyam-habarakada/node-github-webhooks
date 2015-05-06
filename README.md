@@ -14,7 +14,7 @@ Now that we have a way to tag github PRs with Trello shortlinks, what is the bes
 
 The bookmarket code below will help improve this situation for chrome users (it might work in other browsers -- but I have not tested it).
 
-disclaimer: I have not tested this bookmarklet in browsers other than chrome. If you do, let me know. If you find and fix issues, definitely let me know :-)
+> disclaimer: I have not tested this bookmarklet in browsers other than chrome. If you do, let me know. If you find and fix issues, definitely let me know :-)
 
 If you dont care to look at code, visit this [JSFiddle](http://jsfiddle.net/shyamh/6k841LLu/) and simply drag the `Trello+` link to your bookmarks bar. And then use it to toggel displaying the shortlink text in each card while you are in a Trello board. To copy the text to the clipboard, simply click on that text on the card, and you have the value in your clipboard. Voila!
 
