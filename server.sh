@@ -55,10 +55,12 @@ http.createServer(function (req, res) {
           console.log('user: ' + params['pull_request']['user']['login']);
           console.log('title: ' + params['pull_request']['title']);
           console.log('url: ' + params['pull_request']['html_url']);
-          if(params['action'] == 'opened') {
-            trello.onPullRequest( params['pull_request']['user']['login'],
+          if(['opened','closed'].indexOf(params['action']) >= 0) {
+            trello.onPullRequest( params['action'],
+                                  params['pull_request']['user']['login'],
                                   params['pull_request']['title'],
-                                  params['pull_request']['html_url'] );
+                                  params['pull_request']['html_url'],
+                                  params['pull_request']['merged']);
           }
           break;
         default:
